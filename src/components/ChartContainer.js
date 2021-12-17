@@ -3,9 +3,12 @@ import React, {
   useEffect,
   useRef,
   forwardRef,
-  useImperativeHandle
+  useImperativeHandle,
 } from "react";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearchPlus, faSearchMinus } from "@fortawesome/free-solid-svg-icons";
+
 import { selectNodeService } from "./service";
 import JSONDigger from "json-digger";
 import html2canvas from "html2canvas";
@@ -26,7 +29,7 @@ const propTypes = {
   collapsible: PropTypes.bool,
   multipleSelect: PropTypes.bool,
   onClickNode: PropTypes.func,
-  onClickChart: PropTypes.func
+  onClickChart: PropTypes.func,
 };
 
 const defaultProps = {
@@ -38,7 +41,7 @@ const defaultProps = {
   chartClass: "",
   draggable: false,
   collapsible: true,
-  multipleSelect: false
+  multipleSelect: false,
 };
 
 const ChartContainer = forwardRef(
@@ -56,7 +59,7 @@ const ChartContainer = forwardRef(
       collapsible,
       multipleSelect,
       onClickNode,
-      onClickChart
+      onClickChart,
     },
     ref
   ) => {
@@ -73,11 +76,12 @@ const ChartContainer = forwardRef(
     const [dataURL, setDataURL] = useState("");
     const [download, setDownload] = useState("");
 
+
     const attachRel = (data, flags) => {
       data.relationship =
         flags + (data.children && data.children.length > 0 ? 1 : 0);
       if (data.children) {
-        data.children.forEach(function(item) {
+        data.children.forEach(function (item) {
           attachRel(item, "1" + (data.children.length > 1 ? 1 : 0));
         });
       }
@@ -91,9 +95,17 @@ const ChartContainer = forwardRef(
 
     const dsDigger = new JSONDigger(datasource, "id", "children");
 
-    const clickChartHandler = event => {
+
+    const zoomInHandler = () => {
+      updateChartScale(1.1);
+    };
+    const zoomOutHandler = () => {
+      updateChartScale(0.8);
+    };
+
+    const clickChartHandler = (event) => {
       if (!event.target.closest(".oc-node")) {
-        if (onClickChart) {
+        if (!!onClickChart) {
           onClickChart();
         }
         selectNodeService.clearSelectedNodeInfo();
@@ -105,7 +117,7 @@ const ChartContainer = forwardRef(
       setCursor("default");
     };
 
-    const panHandler = e => {
+    const panHandler = (e) => {
       let newX = 0;
       let newY = 0;
       if (!e.targetTouches) {
@@ -140,7 +152,7 @@ const ChartContainer = forwardRef(
       }
     };
 
-    const panStartHandler = e => {
+    const panStartHandler = (e) => {
       if (e.target.closest(".oc-node")) {
         setPanning(false);
         return;
@@ -173,7 +185,7 @@ const ChartContainer = forwardRef(
       }
     };
 
-    const updateChartScale = newScale => {
+    const updateChartScale = (newScale) => {
       let matrix = [];
       let targetScale = 1;
       if (transform === "") {
@@ -198,7 +210,7 @@ const ChartContainer = forwardRef(
       }
     };
 
-    const zoomHandler = e => {
+    const zoomHandler = (e) => {
       let newScale = 1 + (e.deltaY > 0 ? -0.2 : 0.2);
       updateChartScale(newScale);
     };
@@ -211,12 +223,12 @@ const ChartContainer = forwardRef(
           ? new jsPDF({
               orientation: "landscape",
               unit: "px",
-              format: [canvasWidth, canvasHeight]
+              format: [canvasWidth, canvasHeight],
             })
           : new jsPDF({
               orientation: "portrait",
               unit: "px",
-              format: [canvasHeight, canvasWidth]
+              format: [canvasHeight, canvasWidth],
             });
       doc.addImage(canvas.toDataURL("image/jpeg", 1.0), "JPEG", 0, 0);
       doc.save(exportFilename + ".pdf");
@@ -257,12 +269,12 @@ const ChartContainer = forwardRef(
         html2canvas(chart.current, {
           width: chart.current.clientWidth,
           height: chart.current.clientHeight,
-          onclone: function(clonedDoc) {
+          onclone: function (clonedDoc) {
             clonedDoc.querySelector(".orgchart").style.background = "none";
             clonedDoc.querySelector(".orgchart").style.transform = "";
-          }
+          },
         }).then(
-          canvas => {
+          (canvas) => {
             if (exportFileextension.toLowerCase() === "pdf") {
               exportPDF(canvas, exportFilename);
             } else {
@@ -284,14 +296,14 @@ const ChartContainer = forwardRef(
           .querySelectorAll(
             ".oc-node.hidden, .oc-hierarchy.hidden, .isSiblingsCollapsed, .isAncestorsCollapsed"
           )
-          .forEach(el => {
+          .forEach((el) => {
             el.classList.remove(
               "hidden",
               "isSiblingsCollapsed",
               "isAncestorsCollapsed"
             );
           });
-      }
+      },
     }));
 
     return (
@@ -301,6 +313,18 @@ const ChartContainer = forwardRef(
         onWheel={zoom ? zoomHandler : undefined}
         onMouseUp={pan && panning ? panEndHandler : undefined}
       >
+        <div className="orgchart-action-button">
+          <button type="button" onClick={zoomInHandler} className="zoom-button">
+            <FontAwesomeIcon icon={faSearchPlus} />
+          </button>
+          <button
+            type="button"
+            onClick={zoomOutHandler}
+            className="zoom-button"
+          >
+            <FontAwesomeIcon icon={faSearchMinus} />
+          </button>
+        </div>
         <div
           ref={chart}
           className={"orgchart " + chartClass}
