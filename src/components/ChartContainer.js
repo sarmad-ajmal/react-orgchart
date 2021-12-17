@@ -211,6 +211,10 @@ const ChartContainer = forwardRef(
     };
 
     const zoomHandler = (e) => {
+      if (Math.abs(e.deltaY) < 30) {
+        return;
+      }
+
       let newScale = 1 + (e.deltaY > 0 ? -0.2 : 0.2);
       updateChartScale(newScale);
     };
