@@ -1,12 +1,7 @@
 ![OrgChart](http://dabeng.github.io/OrgChart/img/heading.svg)
 
-# [jQuery Version](https://github.com/dabeng/OrgChart)
-# [ES6 Version](http://github.com/dabeng/OrgChart.js)
-# [Web Components Version](http://github.com/dabeng/OrgChart-Webcomponents)
-# [Vue.js Version](https://github.com/dabeng/vue-orgchart)
-# [Angular Version -- the most space-saving solution](https://github.com/dabeng/ng-orgchart)
-
 ## Features
+
 - expand/collapse nodes
 - Allows user to change orgchart structure by drag/drop nodes
 - Allows user to edit orgchart
@@ -14,7 +9,16 @@
 - Supports pan and zoom
 - Allows user to customize the internal structure for every node
 
+## Additional Features
+
+- Zoom in/out controls
+- Zoom in on double click
+
+
+## Update
+- disable zoom using touchpad
 ## Props
+
 <table>
   <thead>
     <tr>
@@ -91,6 +95,12 @@
       <td>false</td>
       <td>If true, the chart can be zoomed.</td>
     </tr>
+        <tr>
+      <td>showZoomControls</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>If true, chart can be zoomed with buttons</td>
+    </tr>
     <tr>
       <td>zoominLimit</td>
       <td>number</td>
@@ -107,6 +117,7 @@
 </table>
 
 ## Methods
+
 <table>
   <thead>
     <tr>
@@ -127,6 +138,7 @@
 </table>
 
 ## Install
+
 ```
 npm install @dabeng/react-orgchart
 ```
