@@ -20,6 +20,7 @@ const propTypes = {
   datasource: PropTypes.object.isRequired,
   pan: PropTypes.bool,
   zoom: PropTypes.bool,
+  showZoomControls: PropTypes.bool,
   zoomoutLimit: PropTypes.number,
   zoominLimit: PropTypes.number,
   containerClass: PropTypes.string,
@@ -42,6 +43,7 @@ const defaultProps = {
   draggable: false,
   collapsible: true,
   multipleSelect: false,
+  showZoomControls: false,
 };
 
 const ChartContainer = forwardRef(
@@ -60,6 +62,7 @@ const ChartContainer = forwardRef(
       multipleSelect,
       onClickNode,
       onClickChart,
+      showZoomControls = false,
     },
     ref
   ) => {
@@ -78,8 +81,6 @@ const ChartContainer = forwardRef(
     const clickCount = useRef(0);
     const singleClickTimer = useRef("");
 
-
-
     const attachRel = (data, flags) => {
       data.relationship =
         flags + (data.children && data.children.length > 0 ? 1 : 0);
@@ -97,7 +98,6 @@ const ChartContainer = forwardRef(
     }, [datasource]);
 
     const dsDigger = new JSONDigger(datasource, "id", "children");
-
 
     const zoomInHandler = () => {
       updateChartScale(1.1);
@@ -335,18 +335,24 @@ const ChartContainer = forwardRef(
         onWheel={zoom ? zoomHandler : undefined}
         onMouseUp={pan && panning ? panEndHandler : undefined}
       >
-        <div className="orgchart-action-button">
-          <button type="button" onClick={zoomInHandler} className="zoom-button">
-            <FontAwesomeIcon icon={faSearchPlus} />
-          </button>
-          <button
-            type="button"
-            onClick={zoomOutHandler}
-            className="zoom-button"
-          >
-            <FontAwesomeIcon icon={faSearchMinus} />
-          </button>
-        </div>
+        {showZoomControls && (
+          <div className="orgchart-action-button">
+            <button
+              type="button"
+              onClick={zoomInHandler}
+              className="zoom-button"
+            >
+              <FontAwesomeIcon icon={faSearchPlus} />
+            </button>
+            <button
+              type="button"
+              onClick={zoomOutHandler}
+              className="zoom-button"
+            >
+              <FontAwesomeIcon icon={faSearchMinus} />
+            </button>
+          </div>
+        )}
         <div
           ref={chart}
           className={"orgchart " + chartClass}
