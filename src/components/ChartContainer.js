@@ -75,6 +75,9 @@ const ChartContainer = forwardRef(
     const [exporting, setExporting] = useState(false);
     const [dataURL, setDataURL] = useState("");
     const [download, setDownload] = useState("");
+    const clickCount = useRef(0);
+    const singleClickTimer = useRef("");
+
 
 
     const attachRel = (data, flags) => {
@@ -102,13 +105,28 @@ const ChartContainer = forwardRef(
     const zoomOutHandler = () => {
       updateChartScale(0.8);
     };
-
+    const handleClicks = () => {
+      clickCount.current = clickCount.current + 1;
+      if (clickCount.current === 1) {
+        singleClickTimer.current = setTimeout(() => {
+          clickCount.current = 0;
+        }, 300);
+      } else if (clickCount.current === 2) {
+        clearTimeout(singleClickTimer.current);
+        clickCount.current = 0;
+        zoomInHandler();
+      }
+    };
     const clickChartHandler = (event) => {
       if (!event.target.closest(".oc-node")) {
         if (!!onClickChart) {
           onClickChart();
         }
         selectNodeService.clearSelectedNodeInfo();
+      }
+
+      if (!onClickChart) {
+        handleClicks();
       }
     };
 
