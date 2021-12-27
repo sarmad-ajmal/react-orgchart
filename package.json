@@ -1,5 +1,5 @@
 {
-  "name": "@dabeng/react-orgchart",
+  "name": "@sarmad/react-orgchart",
   "version": "1.0.2",
   "main": "./dist/ChartContainer.js",
   "files": [
