@@ -50,13 +50,16 @@ const ChartNode = ({
   useEffect(() => {
     const subs1 = dragNodeService.getDragInfo().subscribe(draggedInfo => {
       if (draggedInfo) {
-        setAllowedDrop(
-          !document?.querySelector("#" + draggedInfo.draggedNodeId)
-            ?.closest("li")
-            ?.querySelector("#" + node.current.id)
-            ? true
-            : false
-        );
+        const rootEl=document?.querySelector("#" + draggedInfo.draggedNodeId)
+        if(!!rootEl){
+          const closesetLi=rootEl.closest('li')
+          if(!!closesetLi){
+            const nodeQ=closesetLi.querySelector("#" + node.current.id)
+            if(nodeQ){
+              setAllowedDrop(!nodeQ)
+            }
+          }
+        }
       } else {
         setAllowedDrop(false);
       }

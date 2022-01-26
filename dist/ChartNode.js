@@ -113,9 +113,21 @@ var ChartNode = function ChartNode(_ref) {
   (0, _react.useEffect)(function () {
     var subs1 = _service.dragNodeService.getDragInfo().subscribe(function (draggedInfo) {
       if (draggedInfo) {
-        var _document, _document$querySelect, _document$querySelect2;
+        var _document;
 
-        setAllowedDrop(!((_document = document) !== null && _document !== void 0 && (_document$querySelect = _document.querySelector("#" + draggedInfo.draggedNodeId)) !== null && _document$querySelect !== void 0 && (_document$querySelect2 = _document$querySelect.closest("li")) !== null && _document$querySelect2 !== void 0 && _document$querySelect2.querySelector("#" + node.current.id)) ? true : false);
+        var rootEl = (_document = document) === null || _document === void 0 ? void 0 : _document.querySelector("#" + draggedInfo.draggedNodeId);
+
+        if (!!rootEl) {
+          var closesetLi = rootEl.closest('li');
+
+          if (!!closesetLi) {
+            var nodeQ = closesetLi.querySelector("#" + node.current.id);
+
+            if (nodeQ) {
+              setAllowedDrop(!nodeQ);
+            }
+          }
+        }
       } else {
         setAllowedDrop(false);
       }
