@@ -51,10 +51,9 @@ const ChartNode = ({
     const subs1 = dragNodeService.getDragInfo().subscribe(draggedInfo => {
       if (draggedInfo) {
         setAllowedDrop(
-          !document
-            .querySelector("#" + draggedInfo.draggedNodeId)
-            .closest("li")
-            .querySelector("#" + node.current.id)
+          !document?.querySelector("#" + draggedInfo.draggedNodeId)
+            ?.closest("li")
+            ?.querySelector("#" + node.current.id)
             ? true
             : false
         );
