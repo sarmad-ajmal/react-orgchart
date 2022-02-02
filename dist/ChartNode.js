@@ -112,7 +112,7 @@ var ChartNode = function ChartNode(_ref) {
   }).join(" ");
   (0, _react.useEffect)(function () {
     var subs1 = _service.dragNodeService.getDragInfo().subscribe(function (draggedInfo) {
-      if (draggedInfo) {
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId) {
         var _document;
 
         var rootEl = (_document = document) === null || _document === void 0 ? void 0 : _document.querySelector("#" + draggedInfo.draggedNodeId);
