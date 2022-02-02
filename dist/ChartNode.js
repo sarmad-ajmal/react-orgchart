@@ -118,11 +118,13 @@ var ChartNode = function ChartNode(_ref) {
         var rootEl = (_document = document) === null || _document === void 0 ? void 0 : _document.querySelector("#" + draggedInfo.draggedNodeId);
 
         if (!!rootEl) {
-          var closesetLi = rootEl.closest('li');
+          var closesetLi = rootEl.closest("li");
 
-          if (!!closesetLi) {
+          if (!!closesetLi && !!closesetLi.querySelector) {
             var nodeQ = closesetLi === null || closesetLi === void 0 ? void 0 : closesetLi.querySelector("#" + node.current.id);
             setAllowedDrop(!nodeQ);
+          } else {
+            setAllowedDrop(true);
           }
         }
       } else {
