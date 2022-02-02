@@ -54,10 +54,8 @@ const ChartNode = ({
         if(!!rootEl){
           const closesetLi=rootEl.closest('li')
           if(!!closesetLi){
-            const nodeQ=closesetLi.querySelector("#" + node.current.id)
-            if(nodeQ){
+            const nodeQ=closesetLi?.querySelector("#" + node.current.id)
               setAllowedDrop(!nodeQ)
-            }
           }
         }
       } else {

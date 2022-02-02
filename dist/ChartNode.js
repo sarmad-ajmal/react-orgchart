@@ -121,11 +121,8 @@ var ChartNode = function ChartNode(_ref) {
           var closesetLi = rootEl.closest('li');
 
           if (!!closesetLi) {
-            var nodeQ = closesetLi.querySelector("#" + node.current.id);
-
-            if (nodeQ) {
-              setAllowedDrop(!nodeQ);
-            }
+            var nodeQ = closesetLi === null || closesetLi === void 0 ? void 0 : closesetLi.querySelector("#" + node.current.id);
+            setAllowedDrop(!nodeQ);
           }
         }
       } else {
