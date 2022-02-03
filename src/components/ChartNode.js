@@ -49,7 +49,10 @@ const ChartNode = ({
 
   useEffect(() => {
     const subs1 = dragNodeService.getDragInfo().subscribe((draggedInfo) => {
-      if (!!draggedInfo && !!draggedInfo.draggedNodeId) {
+      setAllowedDrop(false)
+      return 
+        
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId ) {
         const rootEl = document?.querySelector("#" + draggedInfo.draggedNodeId);
         if (!!rootEl) {
           const closesetLi = rootEl.closest("li");
