@@ -14,7 +14,7 @@
 - Zoom in/out controls
 - Zoom in on double click
 - Add callback on drag&drop node
-
+- Disable Drag & Drop for desired nodes
 ## Update
 
 - disable zoom using touchpad
