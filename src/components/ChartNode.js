@@ -49,11 +49,9 @@ const ChartNode = ({
 
   useEffect(() => {
     const subs1 = dragNodeService.getDragInfo().subscribe((draggedInfo) => {
-      setAllowedDrop(false)
-      return 
-        
-      if (!!draggedInfo && !!draggedInfo.draggedNodeId ) {
-        const rootEl = document?.querySelector("#" + draggedInfo.draggedNodeId);
+      
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId && !!window.document && !!window.document.querySelector) {
+        const rootEl = window.document?.querySelector("#" + draggedInfo.draggedNodeId);
         if (!!rootEl) {
           const closesetLi = rootEl.closest("li");
           if (!!closesetLi && !!closesetLi.querySelector) {

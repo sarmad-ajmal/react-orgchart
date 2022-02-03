@@ -112,13 +112,10 @@ var ChartNode = function ChartNode(_ref) {
   }).join(" ");
   (0, _react.useEffect)(function () {
     var subs1 = _service.dragNodeService.getDragInfo().subscribe(function (draggedInfo) {
-      setAllowedDrop(false);
-      return;
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId && !!window.document && !!window.document.querySelector) {
+        var _window$document;
 
-      if (!!draggedInfo && !!draggedInfo.draggedNodeId) {
-        var _document;
-
-        var rootEl = (_document = document) === null || _document === void 0 ? void 0 : _document.querySelector("#" + draggedInfo.draggedNodeId);
+        var rootEl = (_window$document = window.document) === null || _window$document === void 0 ? void 0 : _window$document.querySelector("#" + draggedInfo.draggedNodeId);
 
         if (!!rootEl) {
           var closesetLi = rootEl.closest("li");
