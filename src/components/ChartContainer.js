@@ -15,6 +15,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import ChartNode from "./ChartNode";
 import "./ChartContainer.css";
+import { noop } from "rxjs";
 
 const propTypes = {
   datasource: PropTypes.object.isRequired,
@@ -31,6 +32,7 @@ const propTypes = {
   multipleSelect: PropTypes.bool,
   onClickNode: PropTypes.func,
   onClickChart: PropTypes.func,
+  onDragDrop: PropTypes.func,
 };
 
 const defaultProps = {
@@ -44,6 +46,7 @@ const defaultProps = {
   collapsible: true,
   multipleSelect: false,
   showZoomControls: false,
+  onDragDrop: noop,
 };
 
 const ChartContainer = forwardRef(
@@ -63,6 +66,7 @@ const ChartContainer = forwardRef(
       onClickNode,
       onClickChart,
       showZoomControls = false,
+      onDragDrop
     },
     ref
   ) => {
@@ -274,6 +278,7 @@ const ChartContainer = forwardRef(
     };
 
     const changeHierarchy = async (draggedItemData, dropTargetId) => {
+      onDragDrop(draggedItemData,dropTargetId)
       await dsDigger.removeNode(draggedItemData.id);
       await dsDigger.addChildren(dropTargetId, draggedItemData);
       setDS({ ...dsDigger.ds });

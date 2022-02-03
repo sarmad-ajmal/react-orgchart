@@ -27,6 +27,8 @@ var _ChartNode = _interopRequireDefault(require("./ChartNode"));
 
 require("./ChartContainer.css");
 
+var _rxjs = require("rxjs");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -69,7 +71,8 @@ var propTypes = {
   collapsible: _propTypes.default.bool,
   multipleSelect: _propTypes.default.bool,
   onClickNode: _propTypes.default.func,
-  onClickChart: _propTypes.default.func
+  onClickChart: _propTypes.default.func,
+  onDragDrop: _propTypes.default.func
 };
 var defaultProps = {
   pan: false,
@@ -81,7 +84,8 @@ var defaultProps = {
   draggable: false,
   collapsible: true,
   multipleSelect: false,
-  showZoomControls: false
+  showZoomControls: false,
+  onDragDrop: _rxjs.noop
 };
 var ChartContainer = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var datasource = _ref.datasource,
@@ -98,7 +102,8 @@ var ChartContainer = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       onClickNode = _ref.onClickNode,
       onClickChart = _ref.onClickChart,
       _ref$showZoomControls = _ref.showZoomControls,
-      showZoomControls = _ref$showZoomControls === void 0 ? false : _ref$showZoomControls;
+      showZoomControls = _ref$showZoomControls === void 0 ? false : _ref$showZoomControls,
+      onDragDrop = _ref.onDragDrop;
   var container = (0, _react.useRef)();
   var chart = (0, _react.useRef)();
   var downloadButton = (0, _react.useRef)();
@@ -357,17 +362,18 @@ var ChartContainer = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              onDragDrop(draggedItemData, dropTargetId);
+              _context.next = 3;
               return dsDigger.removeNode(draggedItemData.id);
 
-            case 2:
-              _context.next = 4;
+            case 3:
+              _context.next = 5;
               return dsDigger.addChildren(dropTargetId, draggedItemData);
 
-            case 4:
+            case 5:
               setDS(_objectSpread({}, dsDigger.ds));
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }

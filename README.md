@@ -13,6 +13,7 @@
 
 - Zoom in/out controls
 - Zoom in on double click
+- Add callback on drag&drop node
 
 
 ## Update
@@ -76,6 +77,12 @@
       <td>function</td>
       <td></td>
       <td>A callback fired when the orgchart is clicking.</td>
+    </tr>
+        <tr>
+      <td>onDragDrop</td>
+      <td>function</td>
+      <td></td>
+      <td>A callback fired when the a node is dragged and dropped on other node.</td>
     </tr>
     <tr>
       <td>onClickNode</td>

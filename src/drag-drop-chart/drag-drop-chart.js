@@ -36,7 +36,7 @@ const DragDropChart = () => {
     ]
   };
 
-  return <OrganizationChart datasource={ds} draggable={true} />;
+  return <OrganizationChart datasource={ds} draggable={true} onClickNode={e=>{console.log(e)}}/>;
 };
 
 export default DragDropChart;
