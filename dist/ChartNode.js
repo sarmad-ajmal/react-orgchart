@@ -112,10 +112,21 @@ var ChartNode = function ChartNode(_ref) {
   }).join(" ");
   (0, _react.useEffect)(function () {
     var subs1 = _service.dragNodeService.getDragInfo().subscribe(function (draggedInfo) {
-      if (draggedInfo) {
-        var _document, _document$getElementB, _document$getElementB2, _node$current;
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId) {
+        var _document;
 
-        setAllowedDrop(!((_document = document) !== null && _document !== void 0 && (_document$getElementB = _document.getElementById(draggedInfo === null || draggedInfo === void 0 ? void 0 : draggedInfo.draggedNodeId)) !== null && _document$getElementB !== void 0 && (_document$getElementB2 = _document$getElementB.closest("li")) !== null && _document$getElementB2 !== void 0 && _document$getElementB2.getElementById(node === null || node === void 0 ? void 0 : (_node$current = node.current) === null || _node$current === void 0 ? void 0 : _node$current.id)) ? true : false);
+        var rootEl = (_document = document) === null || _document === void 0 ? void 0 : _document.getElementById(draggedInfo.draggedNodeId);
+
+        if (!!rootEl) {
+          var closesetLi = rootEl.closest("li");
+
+          if (!!closesetLi && !!closesetLi.getElementById) {
+            var nodeQ = closesetLi === null || closesetLi === void 0 ? void 0 : closesetLi.getElementById(node.current.id);
+            setAllowedDrop(!nodeQ);
+          } else {
+            setAllowedDrop(true);
+          }
+        }
       } else {
         setAllowedDrop(false);
       }

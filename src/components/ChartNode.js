@@ -49,15 +49,17 @@ const ChartNode = ({
 
   useEffect(() => {
     const subs1 = dragNodeService.getDragInfo().subscribe((draggedInfo) => {
-      if (draggedInfo) {
-        setAllowedDrop(
-          !document
-            ?.getElementById(draggedInfo?.draggedNodeId)
-            ?.closest("li")
-            ?.getElementById(node?.current?.id)
-            ? true
-            : false
-        );
+      if (!!draggedInfo && !!draggedInfo.draggedNodeId) {
+        const rootEl = document?.getElementById(draggedInfo.draggedNodeId);
+        if (!!rootEl) {
+          const closesetLi = rootEl.closest("li");
+          if (!!closesetLi && !!closesetLi.getElementById) {
+            const nodeQ = closesetLi?.getElementById(node.current.id);
+            setAllowedDrop(!nodeQ);
+          } else {
+            setAllowedDrop(true);
+          }
+        }
       } else {
         setAllowedDrop(false);
       }
