@@ -59,6 +59,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var propTypes = {
   datasource: _propTypes.default.object.isRequired,
+  frozenNodes: _propTypes.default.arrayOf(_propTypes.default.string),
   pan: _propTypes.default.bool,
   zoom: _propTypes.default.bool,
   showZoomControls: _propTypes.default.bool,
@@ -75,6 +76,7 @@ var propTypes = {
   onDragDrop: _propTypes.default.func
 };
 var defaultProps = {
+  frozenNodes: [],
   pan: false,
   zoom: false,
   zoomoutLimit: 0.5,
@@ -103,7 +105,11 @@ var ChartContainer = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       onClickChart = _ref.onClickChart,
       _ref$showZoomControls = _ref.showZoomControls,
       showZoomControls = _ref$showZoomControls === void 0 ? false : _ref$showZoomControls,
-      onDragDrop = _ref.onDragDrop;
+      onDragDrop = _ref.onDragDrop,
+      _ref$frozenNodes = _ref.frozenNodes,
+      frozenNodes = _ref$frozenNodes === void 0 ? [] : _ref$frozenNodes,
+      _ref$hasFrozenNodes = _ref.hasFrozenNodes,
+      hasFrozenNodes = _ref$hasFrozenNodes === void 0 ? false : _ref$hasFrozenNodes;
   var container = (0, _react.useRef)();
   var chart = (0, _react.useRef)();
   var downloadButton = (0, _react.useRef)();
@@ -462,7 +468,8 @@ var ChartContainer = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
     collapsible: collapsible,
     multipleSelect: multipleSelect,
     changeHierarchy: changeHierarchy,
-    onClickNode: onClickNode
+    onClickNode: onClickNode,
+    frozenNodes: frozenNodes
   }))), /*#__PURE__*/_react.default.createElement("a", {
     className: "oc-download-btn hidden",
     ref: downloadButton,

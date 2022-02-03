@@ -36,7 +36,7 @@ const DragDropChart = () => {
     ]
   };
 
-  return <OrganizationChart datasource={ds} draggable={true} onClickNode={e=>{console.log(e)}}/>;
+  return <OrganizationChart datasource={ds} draggable={true} onClickNode={e=>{console.log(e)}} frozenNodes={['n8']}/>;
 };
 
 export default DragDropChart;

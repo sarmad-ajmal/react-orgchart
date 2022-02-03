@@ -5,6 +5,7 @@ import "./ChartNode.css";
 
 const propTypes = {
   datasource: PropTypes.object,
+  frozenNodes: PropTypes.arrayOf(PropTypes.string),
   NodeTemplate: PropTypes.elementType,
   draggable: PropTypes.bool,
   collapsible: PropTypes.bool,
@@ -17,6 +18,7 @@ const defaultProps = {
   draggable: false,
   collapsible: true,
   multipleSelect: false,
+  frozenNodes: [],
 };
 
 const ChartNode = ({
@@ -27,6 +29,7 @@ const ChartNode = ({
   multipleSelect,
   changeHierarchy,
   onClickNode,
+  frozenNodes = [],
 }) => {
   const node = useRef();
 
@@ -37,12 +40,14 @@ const ChartNode = ({
   const [leftEdgeExpanded, setLeftEdgeExpanded] = useState();
   const [allowedDrop, setAllowedDrop] = useState(false);
   const [selected, setSelected] = useState(false);
-
   const nodeClass = [
     "oc-node",
     isChildrenCollapsed ? "isChildrenCollapsed" : "",
     allowedDrop ? "allowedDrop" : "",
     selected ? "selected" : "",
+    !!frozenNodes && frozenNodes.length && frozenNodes.includes(datasource.id)
+      ? "is-frozen"
+      : "",
   ]
     .filter((item) => item)
     .join(" ");
@@ -334,6 +339,7 @@ const ChartNode = ({
               multipleSelect={multipleSelect}
               changeHierarchy={changeHierarchy}
               onClickNode={onClickNode}
+              frozenNodes={frozenNodes}
             />
           ))}
         </ul>

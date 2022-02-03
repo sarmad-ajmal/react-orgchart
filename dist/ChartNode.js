@@ -49,6 +49,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var propTypes = {
   datasource: _propTypes.default.object,
+  frozenNodes: _propTypes.default.arrayOf(_propTypes.default.string),
   NodeTemplate: _propTypes.default.elementType,
   draggable: _propTypes.default.bool,
   collapsible: _propTypes.default.bool,
@@ -59,7 +60,8 @@ var propTypes = {
 var defaultProps = {
   draggable: false,
   collapsible: true,
-  multipleSelect: false
+  multipleSelect: false,
+  frozenNodes: []
 };
 
 var ChartNode = function ChartNode(_ref) {
@@ -69,7 +71,9 @@ var ChartNode = function ChartNode(_ref) {
       collapsible = _ref.collapsible,
       multipleSelect = _ref.multipleSelect,
       changeHierarchy = _ref.changeHierarchy,
-      onClickNode = _ref.onClickNode;
+      onClickNode = _ref.onClickNode,
+      _ref$frozenNodes = _ref.frozenNodes,
+      frozenNodes = _ref$frozenNodes === void 0 ? [] : _ref$frozenNodes;
   var node = (0, _react.useRef)();
 
   var _useState = (0, _react.useState)(false),
@@ -107,7 +111,7 @@ var ChartNode = function ChartNode(_ref) {
       selected = _useState14[0],
       setSelected = _useState14[1];
 
-  var nodeClass = ["oc-node", isChildrenCollapsed ? "isChildrenCollapsed" : "", allowedDrop ? "allowedDrop" : "", selected ? "selected" : ""].filter(function (item) {
+  var nodeClass = ["oc-node", isChildrenCollapsed ? "isChildrenCollapsed" : "", allowedDrop ? "allowedDrop" : "", selected ? "selected" : "", !!frozenNodes && frozenNodes.length && frozenNodes.includes(datasource.id) ? "is-frozen" : ""].filter(function (item) {
     return item;
   }).join(" ");
   (0, _react.useEffect)(function () {
@@ -346,7 +350,8 @@ var ChartNode = function ChartNode(_ref) {
       collapsible: collapsible,
       multipleSelect: multipleSelect,
       changeHierarchy: changeHierarchy,
-      onClickNode: onClickNode
+      onClickNode: onClickNode,
+      frozenNodes: frozenNodes
     });
   })));
 };

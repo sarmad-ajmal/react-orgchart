@@ -19,6 +19,7 @@ import { noop } from "rxjs";
 
 const propTypes = {
   datasource: PropTypes.object.isRequired,
+  frozenNodes: PropTypes.arrayOf(PropTypes.string),
   pan: PropTypes.bool,
   zoom: PropTypes.bool,
   showZoomControls: PropTypes.bool,
@@ -36,6 +37,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  frozenNodes: [],
   pan: false,
   zoom: false,
   zoomoutLimit: 0.5,
@@ -66,7 +68,9 @@ const ChartContainer = forwardRef(
       onClickNode,
       onClickChart,
       showZoomControls = false,
-      onDragDrop
+      onDragDrop,
+      frozenNodes=[],
+      hasFrozenNodes = false,
     },
     ref
   ) => {
@@ -278,7 +282,7 @@ const ChartContainer = forwardRef(
     };
 
     const changeHierarchy = async (draggedItemData, dropTargetId) => {
-      onDragDrop(draggedItemData,dropTargetId)
+      onDragDrop(draggedItemData, dropTargetId);
       await dsDigger.removeNode(draggedItemData.id);
       await dsDigger.addChildren(dropTargetId, draggedItemData);
       setDS({ ...dsDigger.ds });
@@ -375,6 +379,7 @@ const ChartContainer = forwardRef(
               multipleSelect={multipleSelect}
               changeHierarchy={changeHierarchy}
               onClickNode={onClickNode}
+              frozenNodes={frozenNodes}
             />
           </ul>
         </div>

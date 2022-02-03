@@ -442,6 +442,10 @@
   animation: oci-infinite-spinning .75s linear infinite;
 }
 
+.is-frozen{
+  pointer-events: none;
+}
+
 @keyframes oci-infinite-spinning {
   from {
     transform: rotate(0deg);

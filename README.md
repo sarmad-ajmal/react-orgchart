@@ -15,9 +15,10 @@
 - Zoom in on double click
 - Add callback on drag&drop node
 
-
 ## Update
+
 - disable zoom using touchpad
+
 ## Props
 
 <table>
@@ -59,6 +60,12 @@
       <td>boolean</td>
       <td>false</td>
       <td>Allows dragging/dropping the nodes to the hierarchy of chart.</td>
+    </tr>
+        <tr>
+      <td>frozenNodes</td>
+      <td>string[]</td>
+      <td>[]</td>
+      <td>disables drag&drop for provided id's</td>
     </tr>
     <tr>
       <td>multipleSelect</td>
