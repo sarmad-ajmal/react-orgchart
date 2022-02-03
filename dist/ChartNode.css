@@ -444,6 +444,7 @@
 
 .is-frozen{
   pointer-events: none;
+  cursor: not-allowed;
 }
 
 @keyframes oci-infinite-spinning {
