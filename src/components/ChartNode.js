@@ -52,9 +52,9 @@ const ChartNode = ({
       if (draggedInfo) {
         setAllowedDrop(
           !document
-            .getElementById(draggedInfo.draggedNodeId)
-            .closest("li")
-            .getElementById(node.current.id)
+            ?.getElementById(draggedInfo?.draggedNodeId)
+            ?.closest("li")
+            ?.getElementById(node?.current?.id)
             ? true
             : false
         );
