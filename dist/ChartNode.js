@@ -113,7 +113,7 @@ var ChartNode = function ChartNode(_ref) {
   (0, _react.useEffect)(function () {
     var subs1 = _service.dragNodeService.getDragInfo().subscribe(function (draggedInfo) {
       if (draggedInfo) {
-        setAllowedDrop(!document.querySelector("#" + draggedInfo.draggedNodeId).closest("li").querySelector("#" + node.current.id) ? true : false);
+        setAllowedDrop(!document.getElementById(draggedInfo.draggedNodeId).closest("li").getElementById(node.current.id) ? true : false);
       } else {
         setAllowedDrop(false);
       }
