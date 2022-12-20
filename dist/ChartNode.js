@@ -111,7 +111,7 @@ var ChartNode = function ChartNode(_ref) {
       selected = _useState14[0],
       setSelected = _useState14[1];
 
-  var nodeClass = ["oc-node", isChildrenCollapsed ? "isChildrenCollapsed" : "", allowedDrop ? "allowedDrop" : "", selected ? "selected" : "", !!frozenNodes && frozenNodes.length && frozenNodes.includes(datasource.id) ? "is-frozen" : ""].filter(function (item) {
+  var nodeClass = ["oc-node", isChildrenCollapsed ? "isChildrenCollapsed" : "", allowedDrop ? "allowedDrop" : "", selected ? "selected" : ""].filter(function (item) {
     return item;
   }).join(" ");
   (0, _react.useEffect)(function () {
@@ -304,13 +304,17 @@ var ChartNode = function ChartNode(_ref) {
     changeHierarchy(JSON.parse(event.dataTransfer.getData("text/plain")), event.currentTarget.id);
   };
 
+  var isDraggable = (0, _react.useMemo)(function () {
+    if (!frozenNodes || !frozenNodes.length) return draggable;
+    return draggable && !frozenNodes.includes(datasource.id);
+  }, [draggable, frozenNodes, datasource.id]);
   return /*#__PURE__*/_react.default.createElement("li", {
     className: "oc-hierarchy"
   }, /*#__PURE__*/_react.default.createElement("div", {
     ref: node,
     id: datasource.id,
     className: nodeClass,
-    draggable: draggable ? "true" : undefined,
+    draggable: isDraggable ? "true" : undefined,
     onClick: clickNodeHandler,
     onDragStart: dragstartHandler,
     onDragOver: dragoverHandler,
