@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { dragNodeService, selectNodeService } from "./service";
 import "./ChartNode.css";
@@ -45,9 +45,6 @@ const ChartNode = ({
     isChildrenCollapsed ? "isChildrenCollapsed" : "",
     allowedDrop ? "allowedDrop" : "",
     selected ? "selected" : "",
-    !!frozenNodes && frozenNodes.length && frozenNodes.includes(datasource.id)
-      ? "is-frozen"
-      : "",
   ]
     .filter((item) => item)
     .join(" ");
@@ -242,13 +239,19 @@ const ChartNode = ({
     );
   };
 
+  const isDraggable = useMemo(() => {
+    if (!frozenNodes || !frozenNodes.length) return draggable;
+
+    return draggable && !frozenNodes.includes(datasource.id);
+  }, [draggable, frozenNodes, datasource.id]);
+
   return (
     <li className="oc-hierarchy">
       <div
         ref={node}
         id={datasource.id}
         className={nodeClass}
-        draggable={draggable ? "true" : undefined}
+        draggable={isDraggable ? "true" : undefined}
         onClick={clickNodeHandler}
         onDragStart={dragstartHandler}
         onDragOver={dragoverHandler}
